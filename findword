@@ -1,0 +1,47 @@
+
+
+import random
+
+from english_words import get_english_words_set
+web2lowerset = get_english_words_set(['web2'], lower=True)
+web2lowerset = list(web2lowerset)
+def get_words():
+    random_word = random.choice(web2lowerset)
+    while '-' in random_word or ' ' in random_word:
+        random_word = random.choice(web2lowerset)
+    return random_word
+
+
+def display(user_letters,word):
+    display_letter = ''
+    for letter in word:
+        if letter in user_letters:
+            display_letter += letter
+        else:
+            display_letter += '-'
+    return display_letter
+
+
+def play():
+    word = get_words()
+    word_letters = set(word)
+    user_letters = ''
+    print(f'I thought of {len(word)} letters long word. Can you find ??')
+    while len(word_letters)>0:
+        print(display(user_letters,word))
+        if len(user_letters)>0:
+            print(f'The letters you have entered so far: {user_letters}')
+        letter = input(f'Enter a letter >>>')
+        if letter in user_letters:
+            print('You have entered this letter before.')
+            continue
+        elif letter in word:
+            word_letters.remove(letter)
+            print(f'{letter} is correct')
+        else:
+            print('This letter does not exist!')
+        user_letters += letter
+    print(f'Congratulations!! You found {word} with {len(user_letters)} attempts')
+
+
+play()
